@@ -43,10 +43,44 @@
 
     function setupGraph() {
         //gebruik de data van de getGraphData functie voor je grafiek
+        var graphData = getGraphData();
+
+        var options = {
+            chart: {
+                type: 'bar'
+            },
+            series: [{
+                name: 'records',
+                data: graphData.data
+            }],
+            xaxis: {
+                categories: graphData.labels
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shade: 'dark',
+                    type: "horizontal",
+                    shadeIntensity: 0.5,
+                    gradientToColors: undefined, // optional, if not defined - uses the shades of same color in series
+                    inverseColors: true,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 50, 100],
+                    colorStops: []
+                }
+            }
+        }
+
+        var chart = new ApexCharts(document.querySelector("#graphplaceholder"), options);
+
+        chart.render();
     }
 
     setupGraph();
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
   <head>
     <title>WD Client Libraries</title>

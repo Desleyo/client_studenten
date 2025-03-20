@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html lang="en" xml:lang="en">
- 
-  <style>
+
+<style>
     body {
-      font-family: verdana, sans-serif;
-      margin: 0;
+        font-family: verdana, sans-serif;
+        margin: 0;
     }
 
     header {
-      background-color: #0099ff;
-      color: white;
-      text-align: center;
-      padding: 15px 5px 5px 5px;
-      height: 50px;
-      font-size: 18pt;
+        background-color: #0099ff;
+        color: white;
+        text-align: center;
+        padding: 15px 5px 5px 5px;
+        height: 50px;
+        font-size: 18pt;
     }
+
     section {
-      margin: 10px;
+        margin: 10px;
     }
 
     #geoplaceholder {
-      height: 400px;
+        height: 400px;
     }
-  </style>
-  <script src="data.js"></script>
+</style>
 
-  <script type="module" lang="javascript">
+<script src="data.js"></script>
+
+<script type="module" lang="javascript">
     const colors = {
         PV20: "#A6CEE3",
         PV21: "#1F78B4",
@@ -39,26 +41,63 @@
         PV29: "#6A3D9A",
         PV30: "#FFFF99",
         PV31: "#B15928",
-      };
+    };
     function setupGeo() {
         //gebruik mydata (uit data.js) om de kaart te maken (deze is al ingeladen)
         //gebruik de colors dictionary om de kleuren van de punten op de kaart te bepalen
+        var map = L.map('geoplaceholder').setView([52.443690882686276, 5.8632834688542905], 13);
 
-     
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        mydata.forEach(x => {
+
+            const markerHtmlStyles = `
+  background-color: ${colors[x.STATCODE]};
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  left: -1.5rem;
+  top: -1.5rem;
+  position: relative;
+  border-radius: 3rem 3rem 0;
+  transform: rotate(45deg);
+  border: 1px solid #FFFFFF`;
+
+            const icon = L.divIcon({
+                className: "my-custom-pin",
+                iconAnchor: [0, 24],
+                labelAnchor: [-6, 0],
+                popupAnchor: [0, -36],
+                html: `<span style="${markerHtmlStyles}" />`
+            });
+
+            const marker = L.marker([x.LAT, x.LON], { icon }).addTo(map);
+        });
     }
 
     setupGeo();
-  </script>
+</script>
 
-  <head>
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="" />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
     <title>WD Client Libraries</title>
-  </head>
-  <body>
+</head>
+<body>
     <header>Welcome to Client with external libraries!</header>
 
     <section>
-      Hier komt de kaart:
-      <div id="geoplaceholder"></div>
+        Hier komt de kaart:
+        <div id="geoplaceholder" class="stylesheet"></div>
     </section>
-  </body>
+</body>
 </html>

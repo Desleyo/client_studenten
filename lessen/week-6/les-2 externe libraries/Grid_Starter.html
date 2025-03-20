@@ -20,10 +20,24 @@
     }
   </style>
   <script src="data.js"></script>
+  <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+  <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet" />
 
   <script type="module" lang="javascript">
     function setupTable() {
-      //setup the gridjs table
+        //setup the gridjs table
+        new gridjs.Grid({
+            columns: [
+                { id: "TYPE", naam: "TYPE", sort: true },
+                { id: "NAME", naam: "Name", sort: true },
+                { id: "STATCODE", naam: "Statcode" },
+                { id: "LAT", naam: "Latitude" },
+                { id: "LON", naam: "Longtitude" },
+            ],
+            pagination: true,
+            search: true,
+            data: mydata
+        }).render(document.getElementById("tableplaceholder"))
     }
 
     setupTable();
@@ -36,7 +50,7 @@
     <header>Welcome to Client with external libraries!</header>
     <section>
       Hier komt de tabel
-      <div id="tableplaceholder"></div>
+      <div id="tableplaceholder" class="stylesheet"></div>
     </section>
    
   </body>
